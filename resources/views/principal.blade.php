@@ -14,13 +14,19 @@
     <!-- Main styles for this application -->
     <link href="{{asset('css/style.css')}}" rel="stylesheet">
 
+    <style type="text/css">
+        .user {
+            color: white ;
+        }
+    </style>
+
      <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js">-->
 
 
 </head>
 
 <body class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden">
-<header class="app-header navbar">
+<header class="app-header navbar bg-dark" >
         <button class="navbar-toggler mobile-sidebar-toggler d-lg-none mr-auto" type="button">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -31,7 +37,7 @@
         </button>
         <ul class="nav navbar-nav d-md-down-none">
             <li class="nav-item px-3">
-                <a class="nav-link" href="#">Dashbord</a>
+                <a class="nav-link" href="#"> <div class="user">Inicio</div></a>
             </li>
            
         </ul>
@@ -39,8 +45,8 @@
 
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                    <img src="{{asset('storage/img/usuario/'.Auth::user()->imagen)}}" class="img-avatar" class="img-avatar" alt="admin@bootstrapmaster.com">
-                    <span class="d-md-down-none">{{Auth::user()->usuario}}</span>
+                    <img src="{{asset('storage/img/usuario/'.Auth::user()->imagen)}}" class="img-avatar" class="img-avatar" alt="img">
+                    <span class="d-md-down-none" > <div class="user">{{Auth::user()->usuario}}</div></span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
                     <div class="dropdown-header text-center">
@@ -80,10 +86,7 @@
         <!-- /Fin del contenido principal -->
     </div>   
 
-    <footer class="app-footer">
-        <span><a href="http://www.webtraining-it.com/">webtraining-it.com</a> &copy; 2019</span>
-        <span class="ml-auto">Desarrollado por <a href="http://www.webtraining-it.com/">webtraining-it.com</a></span>
-    </footer>
+   
 
     <!-- Bootstrap and necessary plugins -->
     <script src="{{asset('js/jquery.min.js')}}"></script>
