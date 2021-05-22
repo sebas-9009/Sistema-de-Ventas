@@ -203,7 +203,6 @@
              <!--puedes poner un mensaje aqui-->
              <div id="datos">
                 <p id="encabezado">
-                    <b>webtraining-it.com</b><br>Eyter Higuera<br>Telefono:(+00)123456799<br>Email:webdeveloperphpwordpress@gmail.com
                 </p>
             </div>
         </footer>
