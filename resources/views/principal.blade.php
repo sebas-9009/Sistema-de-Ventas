@@ -73,6 +73,8 @@
                 @include('plantilla.sidebarvendedor')
             @elseif (Auth::user()->idrol == 3)
                 @include('plantilla.sidebarcomprador')
+            @elseif (Auth::user()->idrol == 4)
+                @include('plantilla.sidebarcliente')
             @else
 
             @endif
