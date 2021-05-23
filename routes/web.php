@@ -15,6 +15,10 @@ Route::group(['middleware' => ['guest']], function () {
      
     Route::get('/','Auth\LoginController@showLoginForm');
     Route::post('/login', 'Auth\LoginController@login')->name('login');
+    Route::get('/','Auth\LoginController@showLoginForm')->name('/');
+
+    Route::get('/register', 'Auth\LoginController@showLoginFormRegister')->name('register');
+    Route::post('/registersave', 'Auth\LoginController@store')->name('registersave');
 
 });
 
@@ -49,10 +53,20 @@ Route::group(['middleware' => ['auth']], function () {
          
     });
 
+    Route::group(['middleware' => ['Cliente']], function () {
+
+        Route::get('/listarProductoPdf', 'ProductoController@listarPdf')->name('productos_pdf');
+        Route::resource('venta', 'VentaController');
+        Route::get('/pdfVenta/{id}', 'VentaController@pdf')->name('venta_pdf');
+   
+        
+   });
+
     Route::group(['middleware' => ['Administrador']], function () {
           
       Route::resource('categoria', 'CategoriaController');
       Route::resource('producto', 'ProductoController');
+      Route::get('/listar', 'ProductoController@listar')->name('listar');
       Route::get('/listarProductoPdf', 'ProductoController@listarPdf')->name('productos_pdf');
       Route::resource('proveedor', 'ProveedorController');
       Route::resource('compra', 'CompraController'); 

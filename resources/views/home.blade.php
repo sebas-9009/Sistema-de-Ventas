@@ -1,7 +1,19 @@
 @extends('principal')
 @section('contenido')
 <main class="main">
-            <!-- Breadcrumb -->
+            @if(Auth::check())
+                @if (Auth::user()->idrol == 4 )
+                <ol class="breadcrumb">
+                <li class="breadcrumb-item active"><a href="{{url('producto')}}">Mercado Masivo</a></li>
+                </ol>
+                <div class="row">
+
+                            <div class="col-lg-12 ">
+                            <h1 style="color:dark; font-size: 72px; text-align: center;">Bienvenido a Mercado Masivo</h1>
+                            </div>
+                </div>            
+                 @else
+                <!-- Breadcrumb -->
             <ol class="breadcrumb">
                 <li class="breadcrumb-item active"><a href="/">BACKEND - SISTEMA DE COMPRAS - VENTAS</a></li>
             </ol>
@@ -94,8 +106,8 @@
                             </div><!-- col-md-6 -->
 
                         </div><!--row-->
-
-                        
+                        @endif
+                    @endif      
                       
 
                 @push ('scripts')

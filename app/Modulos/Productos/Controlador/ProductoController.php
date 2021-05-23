@@ -43,6 +43,31 @@ class ProductoController extends Controller
        
     }
 
+
+    public function listar(Request $request)
+    {
+        if($request){
+
+        $sql='';
+        $productos=DB::table('productos as p')
+        ->join('categorias as c','p.idcategoria','=','c.id')
+        ->select('p.id','p.idcategoria','p.nombre','p.precio_venta','p.codigo','p.stock','p.imagen','p.condicion','c.nombre as categoria')
+        ->where('p.nombre','LIKE','%'.$sql.'%')
+        ->orwhere('p.codigo','LIKE','%'.$sql.'%')
+        ->orderBy('p.id','desc')
+        ->paginate(20);
+       
+        /*listar las categorias en ventana modal*/
+        $categorias=DB::table('categorias')
+        ->select('id','nombre','descripcion')
+        ->where('condicion','=','1')->get(); 
+
+        return view('producto.listarproducto',["productos"=>$productos,"categorias"=>$categorias,"buscarTexto"=>$sql]);
+ 
+        }
+       
+    }
+
     
 
     /**
