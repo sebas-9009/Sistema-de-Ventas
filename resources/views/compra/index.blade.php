@@ -10,7 +10,7 @@
                 <div class="card">
                     <div class="card-header">
 
-                       <h2>Listado de Compras</h2><br/>
+                       <h2>Listado de Lider</h2><br/>
                        
                        <a href="compra/create">
 

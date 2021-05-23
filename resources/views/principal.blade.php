@@ -86,7 +86,9 @@
         <!-- /Fin del contenido principal -->
     </div>   
 
-   
+
+    <footer class="app-footer">
+    </footer>
 
     <!-- Bootstrap and necessary plugins -->
     <script src="{{asset('js/jquery.min.js')}}"></script>
