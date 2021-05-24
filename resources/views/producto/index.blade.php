@@ -16,7 +16,7 @@
                             <i class="fa fa-plus fa-2x"></i>&nbsp;&nbsp;Agregar Producto
                         </button>
                         
-                        <a href="{{url('listarProductoPdf')}}" target="_blank">
+                        <a href="{{route('listar')}}" target="_blank">
                             <button type="button" class="btn btn-success btn-lg">
                                 <i class="fa fa-file fa-2x"></i>&nbsp;&nbsp;Reporte PDF
                                 

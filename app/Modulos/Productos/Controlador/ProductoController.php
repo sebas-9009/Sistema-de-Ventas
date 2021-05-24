@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Producto;
+use App\Venta;
+use App\DetalleVenta;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use DB;
@@ -39,6 +41,31 @@ class ProductoController extends Controller
             return view('producto.index',["productos"=>$productos,"categorias"=>$categorias,"buscarTexto"=>$sql]);
      
             //return $productos;
+        }
+       
+    }
+
+
+    public function listar(Request $request)
+    {
+        if($request){
+
+        $sql='';
+        $productos=DB::table('productos as p')
+        ->join('categorias as c','p.idcategoria','=','c.id')
+        ->select('p.id','p.idcategoria','p.nombre','p.precio_venta','p.codigo','p.stock','p.imagen','p.condicion','c.nombre as categoria')
+        ->where('p.nombre','LIKE','%'.$sql.'%')
+        ->orwhere('p.codigo','LIKE','%'.$sql.'%')
+        ->orderBy('p.id','desc')
+        ->paginate(20);
+       
+        /*listar las categorias en ventana modal*/
+        $categorias=DB::table('categorias')
+        ->select('id','nombre','descripcion')
+        ->where('condicion','=','1')->get(); 
+
+        return view('producto.listarproducto',["productos"=>$productos,"categorias"=>$categorias,"buscarTexto"=>$sql]);
+ 
         }
        
     }
@@ -191,5 +218,101 @@ class ProductoController extends Controller
             $pdf= \PDF::loadView('pdf.productospdf',['productos'=>$productos,'cont'=>$cont]);
             return $pdf->download('productos.pdf');
           
+    }
+    public function carrito()
+    {
+        return view('producto.carrito');
+    }
+    public function agregarCarrito($id)
+    {
+        // Esta seria la logica para agregar el producto
+        $producto = Producto::find($id);
+        $carrito = session()->get('carrito');
+
+        // Si el carrito esta vacio, este seria el primer producto
+        if(!$carrito){
+            $carrito = [
+                $id => [
+                    "nombre" => $producto->nombre,
+                    "cantidad" => 1,
+                    "precio" => $producto->precio_venta,
+                    "imagen" => $producto->imagen
+
+                ]
+                ];
+                session()->put('carrito',$carrito);
+                return redirect()->back()->with('success','Producto agregado al carrito exitosamente!');
+        }
+        // Si el carrito no esta vacio, entonces verificar si el producto existe, incrementar la cantidad
+        if(isset($carrito[$id])){
+            $carrito[$id]['cantidad']++;
+            session()->put('carrito',$carrito);
+            return redirect()->back()->with('success','Producto agregado al carrito exitosamente!');
+        }
+
+        // Si el item no existe en el carrito, entonces agregar al carrito con cantidad = 1
+        $carrito[$id] = [
+            "nombre" => $producto->nombre,
+            "cantidad" => 1,
+            "precio" => $producto->precio_venta,
+            "imagen" => $producto->imagen
+        ];
+        session()->put('carrito',$carrito);
+        return redirect()->back()->with('success','Producto agregado al carrito exitosamente!');
+    }
+
+
+    public function procesarpago($id){
+         
+         
+        try{
+            $carrito = session()->get('carrito');
+
+            DB::beginTransaction();
+            $mytime= Carbon::now('America/Costa_Rica');
+
+            $venta = new Venta();
+            $venta->idcliente = \Auth::user()->id;
+            $venta->idusuario = \Auth::user()->id;
+            $venta->tipo_identificacion ='NIT';
+            $venta->num_venta = '000';
+            $venta->fecha_venta = $mytime->toDateString();
+            $venta->impuesto = "0.13";
+            $venta->total=$total_pagar;
+            $venta->estado = 'Registrado';
+            $venta->save();
+
+            $id_producto=$request->id_producto;
+            $cantidad=$request->cantidad;
+            $descuento=$request->descuento;
+            $precio=$request->precio_venta;
+
+            
+            //Recorro todos los elementos
+            $cont=0;
+
+             while($cont < count($id_producto)){
+
+                $detalle = new DetalleVenta();
+                /*enviamos valores a las propiedades del objeto detalle*/
+                /*al idcompra del objeto detalle le envio el id del objeto venta, que es el objeto que se ingresó en la tabla ventas de la bd*/
+                /*el id es del registro de la venta*/
+                $detalle->idventa = $venta->id;
+                $detalle->idproducto = $id_producto[$cont];
+                $detalle->cantidad = $cantidad[$cont];
+                $detalle->precio = $precio[$cont];
+                $detalle->descuento = $descuento[$cont];           
+                $detalle->save();
+                $cont=$cont+1;
+            }
+                
+            DB::commit();
+
+        } catch(Exception $e){
+            
+            DB::rollBack();
+        }
+
+        return Redirect::to('venta');
     }
 }

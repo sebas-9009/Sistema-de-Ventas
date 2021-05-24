@@ -24,6 +24,10 @@
                 <div class="col-6">
                   <button type="submit" class="btn btn-dark px-4"><i class="fa fa-sign-in fa-2x"></i> Iniciar sesión</button>
                 </div>
+                <div class="col-6">
+                
+                <a href="{{ route('register') }}" class="btn btn-dark px-4"><i class="fa fa-sign-in fa-2x"></i> Registraté Aquí</a>
+                </div>
               </div>
             </div>
           </form>

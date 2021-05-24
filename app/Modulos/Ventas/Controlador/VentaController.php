@@ -73,7 +73,7 @@ class VentaController extends Controller
                  $venta->tipo_identificacion = $request->tipo_identificacion;
                  $venta->num_venta = $request->num_venta;
                  $venta->fecha_venta = $mytime->toDateString();
-                 $venta->impuesto = "0.20";
+                 $venta->impuesto = "0.13";
                  $venta->total=$request->total_pagar;
                  $venta->estado = 'Registrado';
                  $venta->save();
