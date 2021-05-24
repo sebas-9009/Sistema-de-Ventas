@@ -1,7 +1,7 @@
 @extends('principal')
 @section('contenido')
 <main class="main">
-            <!-- Breadcrumb esto es un cambio-->
+            <!-- Breadcrumb -->
             <ol class="breadcrumb">
                 <li class="breadcrumb-item active"><a href="/">BACKEND - SISTEMA DE COMPRAS - VENTAS</a></li>
             </ol>
