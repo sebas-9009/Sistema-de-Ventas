@@ -217,4 +217,45 @@ class ProductoController extends Controller
             return $pdf->download('productos.pdf');
           
     }
+    public function carrito()
+    {
+        return view('producto/carrito');
+    }
+    public function agregarCarrito($id)
+    {
+        // Esta seria la logica para agregar el producto
+        $producto = Producto::find($id);
+        $carrito = session()->get('carrito');
+
+        // Si el carrito esta vacio, este seria el primer producto
+        if(!$carrito){
+            $carrito = [
+                $id => [
+                    "nombre" => $producto->nombre,
+                    "cantidad" => 1,
+                    "precio" => $producto->precio_venta,
+                    "imagen" => $producto->imagen
+
+                ]
+                ];
+                session()->put('carrito',$carrito);
+                return redirect()->back()->with('success','Producto agregado al carrito exitosamente!');
+        }
+        // Si el carrito no esta vacio, entonces verificar si el producto existe, incrementar la cantidad
+        if(isset($carrito[$id])){
+            $carrito[$id]['cantidad']++;
+            session()->put('carrito',$carrito);
+            return redirect()->back()->with('success','Producto agregado al carrito exitosamente!');
+        }
+
+        // Si el item no existe en el carrito, entonces agregar al carrito con cantidad = 1
+        $carrito[$id] = [
+            "nombre" => $producto->nombre,
+            "cantidad" => 1,
+            "precio" => $producto->precio,
+            "imagen" => $producto->imagen
+        ];
+        session()->put('carrito',$carrito);
+        return redirect()->back()->with('success','Producto agregado al carrito exitosamente!');
+    }
 }

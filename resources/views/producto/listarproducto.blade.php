@@ -10,6 +10,7 @@
                 <div class="card">
                     <div class="card-header">
                        <h2>Listado de Productos</h2><br/>
+                       <a href="{{ url('carrito/') }}" class="btn btn-primary btn-lg btn-block" roles="button" aria-pressed="true"> Carrito de Compras </a>
                     </div>
                     
                  <div class="row">";
@@ -26,9 +27,9 @@
                                                           
                                                             <div class="product__item__text">
                                                                 <center>
-                                                                <h6><a href="#" > Añadir a Carrito </a></h6>
                                                                 <h6>{{$prod->nombre}}</h6>
                                                                 <h5>{{$prod->precio_venta}} Bs. </h5>
+                                                                <a href="{{ url('agregarcarrito/'.$prod->id) }}" class="btn btn-primary btn-lg btn-block" roles="button" aria-pressed="true"> Añadir a Carrito </a>
                                                                 </center>
                                                             </div>
                                                 </div>
