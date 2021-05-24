@@ -20,8 +20,8 @@
                        
                    
                     <li class="nav-item">
-                        <a class="nav-link" href="{{url('venta')}}" onclick="event.preventDefault(); document.getElementById('venta-form').submit();"><i class="fa fa-suitcase"></i> Carrito</a>                      
-                            <form id="venta-form" action="{{url('venta')}}" method="GET" style="display: none;">
+                        <a class="nav-link" href="{{route('carrito')}}" onclick="event.preventDefault(); document.getElementById('carrito-form').submit();"><i class="fa fa-suitcase"></i> Carrito</a>                      
+                            <form id="carrito-form" action="{{route('carrito')}}" method="GET" style="display: none;">
                             {{csrf_field()}} 
                          </form>
                     </li>

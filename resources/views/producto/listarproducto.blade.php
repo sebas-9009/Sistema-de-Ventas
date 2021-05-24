@@ -10,11 +10,11 @@
                 <div class="card">
                     <div class="card-header">
                        <h2>Listado de Productos</h2><br/>
-                       <a href="{{ url('carrito/') }}" class="btn btn-primary btn-lg btn-block" roles="button" aria-pressed="true"> Carrito de Compras </a>
                     </div>
                     
                  <div class="row">";
                              @foreach($productos as $prod)
+                             @if($prod->stock >0)
                              <div class="col-lg-2 col-md-6 col-sm-6">
                                             <div class="product__item">
                                                 <a href="#">
@@ -34,9 +34,11 @@
                                                             </div>
                                                 </div>
                                             </div>
+                                    
                                 
-
+                                @endif
                                 @endforeach
+                               
                             {{$productos->render()}}
 
 

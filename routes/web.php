@@ -68,7 +68,7 @@ Route::group(['middleware' => ['auth']], function () {
       Route::resource('producto', 'ProductoController');
       Route::get('/listar', 'ProductoController@listar')->name('listar');
       Route::get('/carrito', 'ProductoController@carrito')->name('carrito');
-      Route::get('/agregarcarrito/{id}', 'ProductoController@agregarCarrito')->name('agregarcarrito');
+      Route::get('/agregarcarrito/{id}', 'ProductoController@agregarCarrito');
       Route::get('/listarProductoPdf', 'ProductoController@listarPdf')->name('productos_pdf');
       Route::resource('proveedor', 'ProveedorController');
       Route::resource('compra', 'CompraController'); 

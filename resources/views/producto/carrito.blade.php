@@ -35,6 +35,8 @@
                     </tr>
                 </thead>
                 @foreach(session('carrito') as $id => $details)
+                
+                
                 <?php $valor += $details['precio'] * $details['cantidad']?>
                 <tr>
                     <td>
@@ -50,7 +52,7 @@
                         {{     $details['precio'] * $details['cantidad']   }} Bs.
                     </td>
                     <td>
-                        <img src="{{    $details['imagen']  }}" width="50" height="50"/>
+                        <img src="{{asset('storage/img/producto/'.$details['imagen'])}}" width="50" height="50"/>
                     </td>
                 </tr>
                 @endforeach               
@@ -85,9 +87,47 @@
                         {{  $valor*0.13   }} Bs.
                         </td>
                         <td>
+                        
+                        {{session()->put('preciototal',$valor+$valor*0.13 )}}
                         <b>{{  $valor+$valor*0.13    }} Bs.
                         </td>
         </table>
+        <div id="smart-button-container">
+        <div style="text-align: center;">
+        <div id="paypal-button-container"></div>
+      </div>
+    </div>
+  <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=USD" data-sdk-integration-source="button-factory"></script>
+  <script>
+    function initPayPalButton() {
+      paypal.Buttons({
+        style: {
+          shape: 'rect',
+          color: 'gold',
+          layout: 'vertical',
+          label: 'paypal',
+          
+        },
+
+        createOrder: function(data, actions) {
+          return actions.order.create({
+            purchase_units: [{"description":"Venta","amount":{"currency_code":"USD","value":50}}]
+          });
+        },
+
+        onApprove: function(data, actions) {
+          return actions.order.capture().then(function(details) {
+            alert('Transaction completed by ' + details.payer.name.given_name + '!');
+          });
+        },
+
+        onError: function(err) {
+          console.log(err);
+        }
+      }).render('#paypal-button-container');
+    }
+    initPayPalButton();
+  </script>
         </main>
 
 @endsection

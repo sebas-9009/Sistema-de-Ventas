@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Producto;
+use App\Venta;
+use App\DetalleVenta;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use DB;
@@ -219,7 +221,7 @@ class ProductoController extends Controller
     }
     public function carrito()
     {
-        return view('producto/carrito');
+        return view('producto.carrito');
     }
     public function agregarCarrito($id)
     {
@@ -252,10 +254,65 @@ class ProductoController extends Controller
         $carrito[$id] = [
             "nombre" => $producto->nombre,
             "cantidad" => 1,
-            "precio" => $producto->precio,
+            "precio" => $producto->precio_venta,
             "imagen" => $producto->imagen
         ];
         session()->put('carrito',$carrito);
         return redirect()->back()->with('success','Producto agregado al carrito exitosamente!');
+    }
+
+
+    public function procesarpago($id){
+         
+         
+        try{
+            $carrito = session()->get('carrito');
+
+            DB::beginTransaction();
+            $mytime= Carbon::now('America/Costa_Rica');
+
+            $venta = new Venta();
+            $venta->idcliente = \Auth::user()->id;
+            $venta->idusuario = \Auth::user()->id;
+            $venta->tipo_identificacion ='NIT';
+            $venta->num_venta = '000';
+            $venta->fecha_venta = $mytime->toDateString();
+            $venta->impuesto = "0.13";
+            $venta->total=$total_pagar;
+            $venta->estado = 'Registrado';
+            $venta->save();
+
+            $id_producto=$request->id_producto;
+            $cantidad=$request->cantidad;
+            $descuento=$request->descuento;
+            $precio=$request->precio_venta;
+
+            
+            //Recorro todos los elementos
+            $cont=0;
+
+             while($cont < count($id_producto)){
+
+                $detalle = new DetalleVenta();
+                /*enviamos valores a las propiedades del objeto detalle*/
+                /*al idcompra del objeto detalle le envio el id del objeto venta, que es el objeto que se ingresó en la tabla ventas de la bd*/
+                /*el id es del registro de la venta*/
+                $detalle->idventa = $venta->id;
+                $detalle->idproducto = $id_producto[$cont];
+                $detalle->cantidad = $cantidad[$cont];
+                $detalle->precio = $precio[$cont];
+                $detalle->descuento = $descuento[$cont];           
+                $detalle->save();
+                $cont=$cont+1;
+            }
+                
+            DB::commit();
+
+        } catch(Exception $e){
+            
+            DB::rollBack();
+        }
+
+        return Redirect::to('venta');
     }
 }
