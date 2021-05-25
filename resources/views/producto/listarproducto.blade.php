@@ -12,7 +12,7 @@
                        <h2>Listado de Productos</h2><br/>
                     </div>
                     
-                 <div class="row">";
+                 <div class="row">
                              @foreach($productos as $prod)
                              @if($prod->stock >0)
                              <div class="col-lg-2 col-md-6 col-sm-6">
