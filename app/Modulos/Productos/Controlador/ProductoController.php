@@ -236,18 +236,19 @@ class ProductoController extends Controller
                     "nombre" => $producto->nombre,
                     "cantidad" => 1,
                     "precio" => $producto->precio_venta,
+                    "id" => $producto->id,
                     "imagen" => $producto->imagen
 
                 ]
                 ];
                 session()->put('carrito',$carrito);
-                return redirect()->back()->with('success','Producto agregado al carrito exitosamente!');
+                return redirect()->back()->with('message','Producto agregado al carrito exitosamente!');
         }
         // Si el carrito no esta vacio, entonces verificar si el producto existe, incrementar la cantidad
         if(isset($carrito[$id])){
             $carrito[$id]['cantidad']++;
             session()->put('carrito',$carrito);
-            return redirect()->back()->with('success','Producto agregado al carrito exitosamente!');
+            return redirect()->back()->with('message','Producto agregado al carrito exitosamente!');
         }
 
         // Si el item no existe en el carrito, entonces agregar al carrito con cantidad = 1
@@ -255,10 +256,11 @@ class ProductoController extends Controller
             "nombre" => $producto->nombre,
             "cantidad" => 1,
             "precio" => $producto->precio_venta,
+            "id" => $producto->id,
             "imagen" => $producto->imagen
         ];
         session()->put('carrito',$carrito);
-        return redirect()->back()->with('success','Producto agregado al carrito exitosamente!');
+        return redirect()->back()->with('message','Producto agregado al carrito exitosamente!');
     }
 
 
@@ -314,5 +316,26 @@ class ProductoController extends Controller
         }
 
         return Redirect::to('venta');
+    }
+    public function updateCart(Request $request)
+    {
+        if($request->id and $request->quantity)
+        {
+            $cart = session()->get('carrito');
+            $cart[$request->id]["cantidad"] = $request->quantity;
+            session()->put('carrito', $cart);
+            session()->flash('success', 'Carrito actualizado correctamente');
+        }
+    }
+    public function removeCart(Request $request)
+    {
+        if($request->id) {
+            $cart = session()->get('carrito');
+            if(isset($cart[$request->id])) {
+                unset($cart[$request->id]);
+                session()->put('carrito', $cart);
+            }
+            session()->flash('success', 'Producto quitado satisfactoriamente');
+        }
     }
 }

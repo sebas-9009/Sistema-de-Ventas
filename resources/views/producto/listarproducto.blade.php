@@ -10,6 +10,9 @@
                 <div class="card">
                     <div class="card-header">
                        <h2>Listado de Productos</h2><br/>
+                       @if(session('message'))
+                                    <div class="alert alert-success">{{ session('message')  }}</div>
+                                @endif
                     </div>
                     
                  <div class="row">
@@ -30,6 +33,7 @@
                                                                 <h6>{{$prod->nombre}}</h6>
                                                                 <h5>{{$prod->precio_venta}} Bs. </h5>
                                                                 <a href="{{ url('agregarcarrito/'.$prod->id) }}" class="btn btn-primary btn-lg btn-block" roles="button" aria-pressed="true"> Añadir a Carrito </a>
+
                                                                 </center>
                                                             </div>
                                                 </div>
@@ -38,7 +42,6 @@
                                 
                                 @endif
                                 @endforeach
-                               
                             {{$productos->render()}}
 
 
