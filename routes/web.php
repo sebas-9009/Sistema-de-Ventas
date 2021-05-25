@@ -69,6 +69,8 @@ Route::group(['middleware' => ['auth']], function () {
       Route::get('/listar', 'ProductoController@listar')->name('listar');
       Route::get('/carrito', 'ProductoController@carrito')->name('carrito');
       Route::get('/agregarcarrito/{id}', 'ProductoController@agregarCarrito');
+      Route::patch('update-cart', 'ProductoController@updateCart');
+      Route::delete('remove-from-cart', 'ProductoController@removeCart');
       Route::get('/listarProductoPdf', 'ProductoController@listarPdf')->name('productos_pdf');
       Route::resource('proveedor', 'ProveedorController');
       Route::resource('compra', 'CompraController'); 
