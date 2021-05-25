@@ -136,7 +136,7 @@ class ProductoController extends Controller
         $producto->codigo = $request->codigo;
         $producto->nombre = $request->nombre;
         $producto->precio_venta = $request->precio_venta;
-        $producto->stock = '0';
+        $producto->stock = $request->stock;
         $producto->condicion = '1';
 
         //Handle File Upload

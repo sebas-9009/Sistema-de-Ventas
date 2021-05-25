@@ -32,7 +32,7 @@
     <div class="form-group row">
                 <label class="col-md-3 form-control-label" for="stock">Stock</label>
                 <div class="col-md-9">
-                    <input type="text" id="stock" name="stock" class="form-control" placeholder="Ingrese el stock" disabled>
+                    <input type="text" id="stock" name="stock" class="form-control" placeholder="Ingrese el stock" readonly="readonly">
                 </div>
     </div>
 
