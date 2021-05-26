@@ -73,7 +73,8 @@
                     <div class="card-header">
                        <h2>Carrito de Compras</h2><br/>                     
                     </div>
-                    
+          <form action="#" method="POST">
+            {{csrf_field()}}
             <?php $valor = 0?>
             @if(session('carrito'))
             <table class="table">
@@ -169,6 +170,13 @@
                         <b>{{  $valor+$valor*0.13    }} Bs.
                         </td>
         </table>
+        
+        <input  type="submit" class="btn btn-primary btn-lg btn-block" roles="button" aria-pressed="true" value="Pagar"> 
+        
+        </form>
+        
+
+
         <div id="smart-button-container">
         <div style="text-align: center;">
         <div id="paypal-button-container"></div>

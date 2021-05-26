@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Producto;
 use App\Venta;
 use App\DetalleVenta;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use DB;
@@ -233,6 +234,7 @@ class ProductoController extends Controller
         if(!$carrito){
             $carrito = [
                 $id => [
+                    "id" => $producto->id,
                     "nombre" => $producto->nombre,
                     "cantidad" => 1,
                     "precio" => $producto->precio_venta,
@@ -253,6 +255,7 @@ class ProductoController extends Controller
 
         // Si el item no existe en el carrito, entonces agregar al carrito con cantidad = 1
         $carrito[$id] = [
+            "id" => $producto->id,
             "nombre" => $producto->nombre,
             "cantidad" => 1,
             "precio" => $producto->precio_venta,
@@ -264,11 +267,18 @@ class ProductoController extends Controller
     }
 
 
-    public function procesarpago($id){
-         
-         
+    public function store1(Request $request){
         try{
             $carrito = session()->get('carrito');
+            $precio_total =session()->get('preciototal');
+
+            //generador de numero de ventas
+            $caracteres = '0123456789';
+            $caractereslong = strlen($caracteres);
+            $numeroventa = '';
+            for($i = 0; $i < 6; $i++) 
+            $numeroventa .= $caracteres[rand(0, $caractereslong - 1)];
+            //---------------------------------
 
             DB::beginTransaction();
             $mytime= Carbon::now('America/Costa_Rica');
@@ -277,36 +287,32 @@ class ProductoController extends Controller
             $venta->idcliente = \Auth::user()->id;
             $venta->idusuario = \Auth::user()->id;
             $venta->tipo_identificacion ='NIT';
-            $venta->num_venta = '000';
+            $venta->num_venta = $numeroventa;
             $venta->fecha_venta = $mytime->toDateString();
             $venta->impuesto = "0.13";
-            $venta->total=$total_pagar;
+            $venta->total = $precio_total;
             $venta->estado = 'Registrado';
             $venta->save();
 
-            $id_producto=$request->id_producto;
-            $cantidad=$request->cantidad;
-            $descuento=$request->descuento;
-            $precio=$request->precio_venta;
+           
+           
+           
+           //Recorro todos los elementos
+
+            foreach(session('carrito') as $id => $details)
+            {
+                $detalle = new DetalleVenta();
+                $detalle->idventa = $venta->id;
+                $detalle->idproducto = $details['id'];
+                $detalle->cantidad = $details['cantidad'];
+                $detalle->precio = $details['precio'];
+                $detalle->descuento = '0';           
+                $detalle->save();
+            }
 
             
-            //Recorro todos los elementos
-            $cont=0;
-
-             while($cont < count($id_producto)){
-
-                $detalle = new DetalleVenta();
-                /*enviamos valores a las propiedades del objeto detalle*/
-                /*al idcompra del objeto detalle le envio el id del objeto venta, que es el objeto que se ingresó en la tabla ventas de la bd*/
-                /*el id es del registro de la venta*/
-                $detalle->idventa = $venta->id;
-                $detalle->idproducto = $id_producto[$cont];
-                $detalle->cantidad = $cantidad[$cont];
-                $detalle->precio = $precio[$cont];
-                $detalle->descuento = $descuento[$cont];           
-                $detalle->save();
-                $cont=$cont+1;
-            }
+            
+                
                 
             DB::commit();
 
@@ -315,7 +321,7 @@ class ProductoController extends Controller
             DB::rollBack();
         }
 
-        return Redirect::to('venta');
+        return redirect()->back()->with('success','Compra exitosa');
     }
     public function updateCart(Request $request)
     {
