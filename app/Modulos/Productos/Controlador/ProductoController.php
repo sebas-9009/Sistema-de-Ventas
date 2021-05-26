@@ -339,3 +339,5 @@ class ProductoController extends Controller
         }
     }
 }
+
+/*lider el loco*/
