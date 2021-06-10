@@ -138,7 +138,7 @@
                     </tr>
 
                     <tr>
-                        <th colspan="4"><p align="right">TOTAL IMPUESTO (20%):</p></th>
+                        <th colspan="4"><p align="right">TOTAL IMPUESTO (13%):</p></th>
                         <th><p align="right"><span id="total_impuesto">USD$ 0.00</span></p></th>
                     </tr>
 
@@ -197,7 +197,7 @@
           producto= $("#id_producto option:selected").text();
           cantidad= $("#cantidad").val();
           precio_compra= $("#precio_compra").val();
-          impuesto=20;
+          impuesto=13;
         
           
           if(id_producto !="" && cantidad!="" && cantidad>0 && precio_compra!=""){
@@ -266,7 +266,7 @@
      function eliminar(index){
 
         total=total-subtotal[index];
-        total_impuesto= total*20/100;
+        total_impuesto= total*13/100;
         total_pagar_html = total + total_impuesto;
        
         $("#total").html("USD$" + total);
