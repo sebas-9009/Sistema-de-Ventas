@@ -13,6 +13,7 @@
     <link href="{{asset('css/simple-line-icons.min.css')}}" rel="stylesheet">
     <!-- Main styles for this application -->
     <link href="{{asset('css/style.css')}}" rel="stylesheet">
+    <link href="{{asset('css/lidertoro.css')}}" rel="stylesheet">
 
     <style type="text/css">
         .user {

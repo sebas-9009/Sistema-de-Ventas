@@ -14,8 +14,24 @@
                                     <div class="alert alert-success">{{ session('message')  }}</div>
                                 @endif
                     </div>
-                    
-                 <div class="row">
+                </div>
+                            <div class="container1">       
+                                @foreach($productos as $prod)
+                                        @if($prod->stock >0)
+                                
+                                        <div class="card1">
+                                            <img src="{{asset('storage/img/producto/'.$prod->imagen)}}" alt="{{$prod->nombre}}">
+                                            <h4>{{$prod->nombre}}</h4>
+                                            <p> {{$prod->precio_venta}} Bs </p>
+                                            <a href="{{ url('agregarcarrito/'.$prod->id) }}">Añadir a Carrito</a>
+                                        </div>
+                                        @endif
+                                @endforeach
+                                {{$productos->render()}}
+                            </div> 
+            </div>
+
+                <!-- <div class="row">
                              @foreach($productos as $prod)
                              @if($prod->stock >0)
                              <div class="col-lg-2 col-md-6 col-sm-6">
@@ -45,11 +61,7 @@
                             {{$productos->render()}}
 
 
-                </div>
-            </div>
-
-
-
-        </main>
+                </div>-->
+ </main>
 
 @endsection

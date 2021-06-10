@@ -21,14 +21,22 @@ class ClienteController extends Controller
 
         if($request){
 
-            $sql=trim($request->get('buscarTexto'));
+           /* $sql=trim($request->get('buscarTexto'));
             $clientes=DB::table('clientes')
             ->where('nombre','LIKE','%'.$sql.'%')
             ->orwhere('num_documento','LIKE','%'.$sql.'%')
             ->orderBy('id','desc')
             ->paginate(3);
+            return view('cliente.index',["clientes"=>$clientes,"buscarTexto"=>$sql]);*/
+            $sql=trim($request->get('buscarTexto'));
+            $clientes=DB::table('users')
+            ->where('nombre','LIKE','%'.$sql.'%')
+            //->orwhere('num_documento','LIKE','%'.$sql.'%')
+            ->where('idrol','=',4)
+            ->orderBy('id','desc')
+            ->paginate(3);
             return view('cliente.index',["clientes"=>$clientes,"buscarTexto"=>$sql]);
-            //return $clientes;
+
         }
        
     }
