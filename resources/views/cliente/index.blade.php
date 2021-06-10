@@ -11,10 +11,11 @@
                     <div class="card-header">
 
                        <h2>Listado de Clientes</h2><br/>
-                      
+                      <!--
                         <button class="btn btn-primary btn-lg" type="button" data-toggle="modal" data-target="#abrirmodal">
                             <i class="fa fa-plus fa-2x"></i>&nbsp;&nbsp;Agregar Cliente
                         </button>
+                        -->
                     </div>
                     <div class="card-body">
                         <div class="form-group row">
@@ -38,7 +39,7 @@
                                     <th>Teléfono</th>
                                     <th>Email</th>
                                     <th>Dirección</th>
-                                    <th>Editar</th>
+                                    <!--<th>Editar</th> -->
                                 </tr>
                             </thead>
                             <tbody>
@@ -53,12 +54,13 @@
                                     <td>{{$client->telefono}}</td>
                                     <td>{{$client->email}}</td>
                                     <td>{{$client->direccion}}</td>
-                            
+                            <!--
                                     <td>
                                         <button type="button" class="btn btn-info btn-md" data-id_cliente="{{$client->id}}" data-nombre="{{$client->nombre}}" data-tipo_documento="{{$client->tipo_documento}}" data-num_documento="{{$client->num_documento}}" data-direccion="{{$client->direccion}}" data-telefono="{{$client->telefono}}" data-email="{{$client->email}}" data-toggle="modal" data-target="#abrirmodalEditar">
                                           <i class="fa fa-edit fa-2x"></i> Editar
                                         </button> &nbsp;
                                     </td>
+                                    -->
 
 
                                     
